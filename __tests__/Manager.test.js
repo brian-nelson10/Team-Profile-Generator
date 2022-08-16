@@ -7,6 +7,6 @@ test ('creates manager object', () => {
 
 test('sets job', () => {
     const testValue = "Manager";
-    const Manager = new Manager("Penny", 10, "info@info.com");
+    const manager = new Manager("Penny", 10, "info@info.com");
     expect(manager.getRole()).toBe(testValue);
 });
