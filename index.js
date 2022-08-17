@@ -8,7 +8,7 @@
 //add last div and body html closing tags
 
 //add member(); startHtml(); addHtml(); .then(function); finsihHtml();
-const {writeFile, copyFile} = require('./dist/generate-site.js');
+const {writeFile, copyFile} = require('./src/page-template.js');
 const inquirer = require("inquirer");
 const generateHtml = require('./src/generateHtml.js');
 const Engineer = require('./lib/Engineer.js');
@@ -42,8 +42,9 @@ const teamName = () => {
                     }
                 }
             }
-        ])};
-
+        ]) 
+    };
+   
 const addTeamMember = () => {
     console.log(`
     ==================
