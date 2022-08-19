@@ -168,11 +168,11 @@ const addTeamMember = () => {
         ])
 
         .then(teamData => {
-            let {name, id, email, role, officeNumber, git, school, confirmAddMember, team} = teamData;
+            let {name, id, email, role, officeNumber, git, school, confirmAddMember} = teamData;
             let employee;
 
               if (role === "Manager") {
-                employee = new Manager (team, name, id, email, officeNumber);
+                employee = new Manager (name, id, email, officeNumber);
                 console.log(employee);
             } else if (role === "Engineer") {
                 employee = new Engineer (name, id, email, git);
@@ -195,7 +195,7 @@ const addTeamMember = () => {
             });
         };
 
-function renderHtml() {
+const renderHtml = () => {
         const html = `
         <!DOCTYPE html>
         <html lang="en">
@@ -208,7 +208,9 @@ function renderHtml() {
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <!-- Compiled and minified CSS -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        
+            <style>
+            @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&display=swap');
+            </style>
             <title>Team Profile</title>
         
         </head>
@@ -216,8 +218,8 @@ function renderHtml() {
         <body>
             <header>
                 <nav>
-                    <div class="nav-wrapper">
-                        <div class="brand-logo lighten-2 white-text" id="team"><i class="material-icons">cloud</i>Team Profile</div>
+                    <div class="nav-wrapper amber">
+                        <div class="brand-logo white-text" id="team"><i class="material-icons">cloud</i>Team Profile</div>
                         <div class= "row justify-content-center" id="team-Cards">
                         
                     </div>
@@ -240,26 +242,23 @@ function addCardHtml(employee) {
         const email = employee.getEmail();
         const role = employee.getRole();
         let data = "";
-        if (role === "Manager") {
-            const officeNumber = employee.officeNumber();
+        if (role === 'Manager') {
+            const officeNumber = employee.getOfficeNumber();
             data = 
             `
     <div class="row">
    <div class="col s12 m6">
-     <div class="card blue-grey darken-1">
+     <div class="card grey lighten-3">
 
-       <div class="card-content white-text">
-         <h3 class="card-title">${name}</h3>
-         <i class="material-icons">work</> <h4>${role}</h4>
+       <div class="card-content ">
+         <h3 class="card-title green-text">${name}</h3>
+         <h4 class="amber-text"> <i class="material-icons">work</i> ${role}</h4>
        </div>
 
-       <div class="card-action">
-        <p class="id">ID: ${id}</p>
-         <p class="email">Email: <a href="mailto:${email}">${email}</a></p>
-         <p class="officeNumber">Office Number: ${officeNumber}</p>
-       </div>
-     </div>
-   </div>
+       <div class="card-action green darken-1">
+        <p class="id white-text">ID: ${id}</p>
+         <p class="email white-text">Email: <a href="mailto:${email}">${email}</a></p>
+         <p class="officeNumber white-text">Office Number: ${officeNumber}</p>
    </div>
     `;
       } else if (role === "Engineer") {
@@ -268,17 +267,17 @@ function addCardHtml(employee) {
             `
     <div class="row">
    <div class="col s12 m6">
-     <div class="card blue-grey darken-1">
+     <div class="card grey lighten-3">
 
-       <div class="card-content white-text">
-         <h3 class="card-title">${name}</h3>
-         <i class="material-icons">work</> <h4>${role}</h4>
+       <div class="card-content">
+         <h3 class="card-title green-text">${name}</h3>
+         <h4 class="amber-text"><i class="material-icons">build</i>${role}</h4>
        </div>
 
-       <div class="card-action">
-        <p class="id">ID: ${id}</p>
-         <p class="email">Email: <a href="mailto:${email}">${email}</a></p>
-         <p class="git">GitHub Profile: <a href="https://github.com/${git}">${git}</a></p>
+       <div class="card-action green darken-1">
+        <p class="id white-text">ID: ${id}</p>
+         <p class="email white-text">Email: <a href="mailto:${email}">${email}</a></p>
+         <p class="git white-text">GitHub Profile: <a href="https://github.com/${git}">${git}</a></p>
        </div>
      </div>
    </div>
@@ -290,17 +289,17 @@ function addCardHtml(employee) {
             `
             <div class="row">
            <div class="col s12 m6">
-             <div class="card blue-grey darken-1">
+             <div class="card grey lighten-3">
         
-               <div class="card-content white-text">
-                 <h3 class="card-title">${name}</h3>
-                 <i class="material-icons">work</> <h4>${role}</h4>
+               <div class="card-content">
+                 <h3 class="card-title green-text">${name}</h3>
+                <h4 class="amber-text"><i class="material-icons">edit</i>${role}</h4>
                </div>
         
-               <div class="card-action">
-                <p class="id">ID: ${id}</p>
-                 <p class="email">Email: <a href="mailto:${email}">${email}</a></p>
-                 <p class="school">School Name: ${school}</p>
+               <div class="card-action green darken-1">
+                <p class="id white-text">ID: ${id}</p>
+                 <p class="email white-text">Email: <a href="mailto:${email}">${email}</a></p>
+                 <p class="school white-text">School Name: ${school}</p>
                </div>
              </div>
            </div>
@@ -311,9 +310,8 @@ function addCardHtml(employee) {
         fs.appendFile("./dist/team-profile.html", data, function(err) {
             if (err) {
                  reject(err);
-                return;
-            }
-            resolve({
+            };
+            return resolve({
                 ok: true,
                 message: 'HTML File created! Check it out in the dist folder!'
             });
@@ -321,7 +319,7 @@ function addCardHtml(employee) {
     });
 }
 
-function finHtml() {
+const finHtml = () => {
     const html = `
     </div>
         </div>
@@ -330,6 +328,11 @@ function finHtml() {
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
+<footer class="page-footer amber">
+<div class="footer-copyright">
+    <div class="container">
+    
+    <a class="grey-text text-lighten-4 right">© ${new Date().getFullYear()} Copyright Text</a>
 </html>
 
 
