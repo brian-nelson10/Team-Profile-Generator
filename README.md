@@ -35,7 +35,7 @@ Run 'node index' from the command line. You will then be prompted to answer ques
 Your HTML file will be generated in the 'dist' folder called team-profile.html. 
 See video tutorial below!
 
-**[Video Tutorial]()**
+**[Video Tutorial](https://drive.google.com/file/d/1e08iqXenX8fEOHAIJkqbr9VcPVw6XECq/view)**
 
 **Screenshots!**
 ![screenshot](src/Capture3.PNG)

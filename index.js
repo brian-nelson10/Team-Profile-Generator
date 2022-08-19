@@ -9,7 +9,7 @@ const fs = require('fs');
 const teamArray = [];
 
 
-
+//team member prompts
 const addTeamMember = () => {
     console.log(`
     ====================
@@ -19,19 +19,6 @@ const addTeamMember = () => {
     
     return inquirer
     .prompt([
-    // {
-    //     type: 'input',
-    //     name: 'team',
-    //     message: 'Enter your Team Profile Name',
-    //     validate: teamInput => {
-    //         if (teamInput) {
-    //             return true;
-    //         } else {
-    //             console.log('Enter Team Profile Name!!');
-    //             return false;
-    //         }
-    //     }
-    // },
         {
             type: 'input',
             name: 'name',
@@ -153,6 +140,7 @@ const addTeamMember = () => {
             });
         };
 
+//start html
 const renderHtml = () => {
         const html = `
         <!DOCTYPE html>
@@ -194,6 +182,7 @@ const renderHtml = () => {
         });
 }
 
+//add team cards
 function addCardHtml(employee) {
     return new Promise(function(resolve, reject) {
         const name = employee.getName();
@@ -278,7 +267,7 @@ function addCardHtml(employee) {
         });
     });
 }
-
+ //close html, footer
 const finHtml = () => {
     const html = `
     </div>
@@ -304,6 +293,7 @@ const finHtml = () => {
     });
     console.log("Fin.");
 }
+//call app
 function callApp() {
     renderHtml();
     addTeamMember();
