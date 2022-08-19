@@ -38,6 +38,11 @@ See video tutorial below!
 **[Video Tutorial]()**
 
 **Screenshots!**
+![screenshot](src/Capture3.PNG)
+
+<br>
+
+![screenshot](src/Capture4.PNG)
 
 # Contribution
 

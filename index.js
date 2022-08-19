@@ -214,7 +214,7 @@ function addCardHtml(employee) {
          <h4 class="amber-text"> <i class="material-icons">work</i> ${role}</h4>
        </div>
 
-       <div class="card-action grey">
+       <div class="card-action grey darken-2">
         <p class="id white-text">ID: ${id}</p>
          <p class="email white-text">Email: <a href="mailto:${email}">${email}</a></p>
          <p class="officeNumber white-text">Office Number: ${officeNumber}</p>
@@ -235,7 +235,7 @@ function addCardHtml(employee) {
          <h4 class="amber-text"><i class="material-icons">build</i>${role}</h4>
        </div>
 
-       <div class="card-action grey">
+       <div class="card-action grey darken-2">
         <p class="id white-text">ID: ${id}</p>
          <p class="email white-text">Email: <a href="mailto:${email}">${email}</a></p>
          <p class="git white-text">GitHub Profile: <a href="https://github.com/${git}">${git}</a></p>
@@ -257,7 +257,7 @@ function addCardHtml(employee) {
                 <h4 class="amber-text"><i class="material-icons">edit</i>${role}</h4>
                </div>
         
-               <div class="card-action grey">
+               <div class="card-action grey darken-2">
                 <p class="id white-text">ID: ${id}</p>
                  <p class="email white-text">Email: <a href="mailto:${email}">${email}</a></p>
                  <p class="school white-text">School Name: ${school}</p>
