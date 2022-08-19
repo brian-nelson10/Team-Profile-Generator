@@ -1,16 +1,5 @@
-//add const
-//add initialize function
-//add html function for header and body
-//add add team member function
-//add fs.writefile(filelocation, html, function(err))
-//add add team member html (cards) insert body html
-//add appendFile(filelocation, data, function(err))
-//add last div and body html closing tags
-
-//add member(); startHtml(); addHtml(); .then(function); finsihHtml();
-const {writeFile, copyFile} = require('./src/page-template.js');
 const inquirer = require("inquirer");
-const generateHtml = require('./src/generateHtml.js');
+
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
 const Manager = require('./lib/Manager.js');
@@ -19,41 +8,72 @@ const fs = require('fs');
 
 const teamArray = [];
 
+function callApp() {
+    renderHtml();
+//    teamName();
+    addTeamMember();
+}
+
+// const teamName = () => {
+//     console.log(`
+//     ====================
+//     Start a Team Profile
+//     ====================
+//     `);
 
 
-const teamName = () => {
+//     return inquirer
+//         .prompt([
+//             {
+//                 type: 'input',
+//                 name: 'team',
+//                 message: 'Enter your Team Profile Name',
+//                 validate: teamInput => {
+//                     if (teamInput) {
+//                         return true;
+//                     } else {
+//                         console.log('Enter Team Profile Name!!');
+//                         return false;
+//                     }
+//                 }
+//             }
+//         ]) 
+//         .then(projectData => {
+//             let {name} = projectData;
+//             if (name === name) {
+//                 console.log(name)
+//             } else {
+//                 return false;
+//             }
+//             teamProfileArr.push(projectData);
+
+          
+
+//         })
+//     };
+   
+const addTeamMember = () => {
     console.log(`
     ====================
     Start a Team Profile
     ====================
     `);
-    return inquirer
-        .prompt([
-            {
-                type: 'input',
-                name: 'team',
-                message: 'Enter your Team Profile Name',
-                validate: teamInput => {
-                    if (teamInput) {
-                        return true;
-                    } else {
-                        console.log('Enter Team Profile Name!!');
-                        return false;
-                    }
-                }
-            }
-        ]) 
-    };
-   
-const addTeamMember = () => {
-    console.log(`
-    ==================
-    Add a Team Member!
-    ==================
-    `);
     
-      return inquirer
-        .prompt([
+    return inquirer
+    .prompt([
+    // {
+    //     type: 'input',
+    //     name: 'team',
+    //     message: 'Enter your Team Profile Name',
+    //     validate: teamInput => {
+    //         if (teamInput) {
+    //             return true;
+    //         } else {
+    //             console.log('Enter Team Profile Name!!');
+    //             return false;
+    //         }
+    //     }
+    // },
         {
             type: 'input',
             name: 'name',
@@ -148,11 +168,11 @@ const addTeamMember = () => {
         ])
 
         .then(teamData => {
-            let {name, id, email, role, officeNumber, git, school, confirmAddMember} = teamData;
+            let {name, id, email, role, officeNumber, git, school, confirmAddMember, team} = teamData;
             let employee;
 
               if (role === "Manager") {
-                employee = new Manager (name, id, email, officeNumber);
+                employee = new Manager (team, name, id, email, officeNumber);
                 console.log(employee);
             } else if (role === "Engineer") {
                 employee = new Engineer (name, id, email, git);
@@ -163,62 +183,166 @@ const addTeamMember = () => {
             }
 
                 teamArray.push(employee);
-                
-                if (confirmAddMember) {
-                    return addTeamMember(teamArray);
-                } else {
-                    return teamArray,
-                    console.log(teamData);
-                }
-            })
+                addCardHtml(employee)
+                .then(function() {
+                    if (confirmAddMember) {
+                        return addTeamMember(teamArray);
+                    } else  {
+                        finHtml();
+
+                    }
+                });
+            });
         };
 
-//call to run app
-teamName()
-.then(addTeamMember)
- .then(teamArray => {
-     console.log(teamArray);
-      return generateHtml(teamArray);
- })
- .then(pageHTML => {
-     return writeFile(pageHTML);
- })
- .then(writeFileResponse => {
-     console.log(writeFileResponse);
-     return copyFile();
- })
- .then(copyFileResponse => {
-     console.log(copyFileResponse);
-   })
-.catch(err => {
-    console.log(err);
-});
-
+function renderHtml() {
+        const html = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            
+            <!--Import Google Icon Font-->
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            <!-- Compiled and minified CSS -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         
+            <title>Team Profile</title>
+        
+        </head>
+        
+        <body>
+            <header>
+                <nav>
+                    <div class="nav-wrapper">
+                        <div class="brand-logo lighten-2 white-text" id="team"><i class="material-icons">cloud</i>Team Profile</div>
+                        <div class= "row justify-content-center" id="team-Cards">
+                        
+                    </div>
+                </nav>
+            </header>
+            <main>    
+                <div class ="container">
+        `;
+        fs.writeFile('./dist/team-profile.html', html, function(err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+}
 
-            // .then(function({roleInput}) {
-            //     let newMember;
-            //     if (role === "Manager") {
-            //         newMember = new Manager(name, id, email, roleInput);
-            //     } else if (role === "Engineer") {
-            //         newMember = new Engineer(name,id,email,roleInput);
-            //     } else {
-            //         newMember = new Intern(name,id,email,roleInput);
-            //     }
-//             teamData.team.push(newMember);
-//             renderHtml()
+function addCardHtml(employee) {
+    return new Promise(function(resolve, reject) {
+        const name = employee.getName();
+        const id = employee.getId();
+        const email = employee.getEmail();
+        const role = employee.getRole();
+        let data = "";
+        if (role === "Manager") {
+            const officeNumber = employee.officeNumber();
+            data = 
+            `
+    <div class="row">
+   <div class="col s12 m6">
+     <div class="card blue-grey darken-1">
 
-//             .then(function() {
-// //                teamData.team.push(profileData);
-//                 if (addMember === "YES") {
-//                     return addTeamMember(teamData);
-//                 } else {
-// //                    return renderCloseHtml(),
-//                     console.log('Html has been generated');
-//                 }
-//             });
-//        });
-//    }
-//    );
-//}
+       <div class="card-content white-text">
+         <h3 class="card-title">${name}</h3>
+         <i class="material-icons">work</> <h4>${role}</h4>
+       </div>
+
+       <div class="card-action">
+        <p class="id">ID: ${id}</p>
+         <p class="email">Email: <a href="mailto:${email}">${email}</a></p>
+         <p class="officeNumber">Office Number: ${officeNumber}</p>
+       </div>
+     </div>
+   </div>
+   </div>
+    `;
+      } else if (role === "Engineer") {
+            const git = employee.getGit();
+            data = 
+            `
+    <div class="row">
+   <div class="col s12 m6">
+     <div class="card blue-grey darken-1">
+
+       <div class="card-content white-text">
+         <h3 class="card-title">${name}</h3>
+         <i class="material-icons">work</> <h4>${role}</h4>
+       </div>
+
+       <div class="card-action">
+        <p class="id">ID: ${id}</p>
+         <p class="email">Email: <a href="mailto:${email}">${email}</a></p>
+         <p class="git">GitHub Profile: <a href="https://github.com/${git}">${git}</a></p>
+       </div>
+     </div>
+   </div>
+   </div>
+    `;
+        } else {
+            const school = employee.getSchool();
+            data = 
+            `
+            <div class="row">
+           <div class="col s12 m6">
+             <div class="card blue-grey darken-1">
+        
+               <div class="card-content white-text">
+                 <h3 class="card-title">${name}</h3>
+                 <i class="material-icons">work</> <h4>${role}</h4>
+               </div>
+        
+               <div class="card-action">
+                <p class="id">ID: ${id}</p>
+                 <p class="email">Email: <a href="mailto:${email}">${email}</a></p>
+                 <p class="school">School Name: ${school}</p>
+               </div>
+             </div>
+           </div>
+           </div>
+            `
+        }
+        console.log('Added Team Member!');
+        fs.appendFile("./dist/team-profile.html", data, function(err) {
+            if (err) {
+                 reject(err);
+                return;
+            }
+            resolve({
+                ok: true,
+                message: 'HTML File created! Check it out in the dist folder!'
+            });
+        });
+    });
+}
+
+function finHtml() {
+    const html = `
+    </div>
+        </div>
+    </main>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+</body>
+</html>
+
+
+    `;
+    fs.appendFile("./dist/team-profile.html", html, function (err) {
+        if (err) {
+            console.log(err);
+        };
+    });
+    console.log("Fin.");
+}
+
+callApp();
+
+
 
