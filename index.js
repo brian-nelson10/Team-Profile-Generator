@@ -8,50 +8,8 @@ const fs = require('fs');
 
 const teamArray = [];
 
-function callApp() {
-    renderHtml();
-//    teamName();
-    addTeamMember();
-}
-
-// const teamName = () => {
-//     console.log(`
-//     ====================
-//     Start a Team Profile
-//     ====================
-//     `);
 
 
-//     return inquirer
-//         .prompt([
-//             {
-//                 type: 'input',
-//                 name: 'team',
-//                 message: 'Enter your Team Profile Name',
-//                 validate: teamInput => {
-//                     if (teamInput) {
-//                         return true;
-//                     } else {
-//                         console.log('Enter Team Profile Name!!');
-//                         return false;
-//                     }
-//                 }
-//             }
-//         ]) 
-//         .then(projectData => {
-//             let {name} = projectData;
-//             if (name === name) {
-//                 console.log(name)
-//             } else {
-//                 return false;
-//             }
-//             teamProfileArr.push(projectData);
-
-          
-
-//         })
-//     };
-   
 const addTeamMember = () => {
     console.log(`
     ====================
@@ -218,7 +176,7 @@ const renderHtml = () => {
         <body>
             <header>
                 <nav>
-                    <div class="nav-wrapper amber">
+                    <div class="nav-wrapper left-align black">
                         <div class="brand-logo white-text" id="team"><i class="material-icons">cloud</i>Team Profile</div>
                         <div class= "row justify-content-center" id="team-Cards">
                         
@@ -227,6 +185,7 @@ const renderHtml = () => {
             </header>
             <main>    
                 <div class ="container">
+                <div class="row">
         `;
         fs.writeFile('./dist/team-profile.html', html, function(err) {
             if (err) {
@@ -246,42 +205,44 @@ function addCardHtml(employee) {
             const officeNumber = employee.getOfficeNumber();
             data = 
             `
-    <div class="row">
+    
    <div class="col s12 m6">
-     <div class="card grey lighten-3">
+     <div class="card black">
 
        <div class="card-content ">
          <h3 class="card-title green-text">${name}</h3>
          <h4 class="amber-text"> <i class="material-icons">work</i> ${role}</h4>
        </div>
 
-       <div class="card-action green darken-1">
+       <div class="card-action grey">
         <p class="id white-text">ID: ${id}</p>
          <p class="email white-text">Email: <a href="mailto:${email}">${email}</a></p>
          <p class="officeNumber white-text">Office Number: ${officeNumber}</p>
+     </div>
+    </div>
    </div>
     `;
       } else if (role === "Engineer") {
             const git = employee.getGit();
             data = 
             `
-    <div class="row">
+    
    <div class="col s12 m6">
-     <div class="card grey lighten-3">
+     <div class="card black">
 
        <div class="card-content">
          <h3 class="card-title green-text">${name}</h3>
          <h4 class="amber-text"><i class="material-icons">build</i>${role}</h4>
        </div>
 
-       <div class="card-action green darken-1">
+       <div class="card-action grey">
         <p class="id white-text">ID: ${id}</p>
          <p class="email white-text">Email: <a href="mailto:${email}">${email}</a></p>
          <p class="git white-text">GitHub Profile: <a href="https://github.com/${git}">${git}</a></p>
        </div>
+      </div>
      </div>
-   </div>
-   </div>
+
     `;
         } else {
             const school = employee.getSchool();
@@ -289,20 +250,19 @@ function addCardHtml(employee) {
             `
             <div class="row">
            <div class="col s12 m6">
-             <div class="card grey lighten-3">
+             <div class="card black">
         
                <div class="card-content">
                  <h3 class="card-title green-text">${name}</h3>
                 <h4 class="amber-text"><i class="material-icons">edit</i>${role}</h4>
                </div>
         
-               <div class="card-action green darken-1">
+               <div class="card-action grey">
                 <p class="id white-text">ID: ${id}</p>
                  <p class="email white-text">Email: <a href="mailto:${email}">${email}</a></p>
                  <p class="school white-text">School Name: ${school}</p>
                </div>
              </div>
-           </div>
            </div>
             `
         }
@@ -328,7 +288,7 @@ const finHtml = () => {
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
-<footer class="page-footer amber">
+<footer class="page-footer black">
 <div class="footer-copyright">
     <div class="container">
     
@@ -344,7 +304,10 @@ const finHtml = () => {
     });
     console.log("Fin.");
 }
-
+function callApp() {
+    renderHtml();
+    addTeamMember();
+}
 callApp();
 
 
